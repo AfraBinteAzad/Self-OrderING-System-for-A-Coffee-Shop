@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book Store</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Available Books</h1>
+        <div class="grid">
+            {% for book in books %}
+            <div class="card">
+                <img src="{{ url_for('static', filename='images/' + book.image) }}" alt="{{ book.title }}">
+                <h2>{{ book.title }}</h2>
+                <p>৳{{ book.price }}</p>
+                <a href="/order/{{ book.id }}"><button>Order</button></a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
+
