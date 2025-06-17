@@ -1,74 +1,97 @@
 body {
     font-family: Arial, sans-serif;
-    background-image: url('/static/images/bg.jpeg'); 
+    background: url("/static/images/Ipad_Desktop wallpaper.jpeg");
     background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
     margin: 0;
     padding: 0;
     text-align: center;
 }
 
-.container {
-    padding: 40px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
 h1 {
-    color: #333;
-    margin-bottom: 30px;
+    margin: 20px;
+    color: #5b3a29;
 }
 
-.grid {
+.menu {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 30px;
+    align-items: center;
+    min-height: 80vh; 
+    gap: 20px;
+    padding: 20px;
 }
 
 .card {
-    background-color: #fff1e6;
-    border-radius: 10px;
-    width: 230px;
-    padding: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease;
+    background: #fff;
+    border-radius: 12px;
+    width: 200px;
+    height: 220px;
+    padding: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 }
-
-.card:hover {
-    transform: translateY(-5px);
+.card:hover{
+    background-color: #fff;
+    transform: scale(1.05);
 }
 
 .card img {
-    width: 90%;
-    height: 280px;
+    width: 100%;
+    height: 100px;
     object-fit: cover;
+    display: flex;
     border-radius: 6px;
 }
 
 .card h2 {
-    font-size: 18px;
-    margin: 10px 0 5px 0;
-    color: #333;
+    font-size: 16px;
+    margin: 8px 0 0;
+    color: #3e2f1c;
 }
 
 .card p {
-    font-size: 16px;
-    color: #777;
-    margin-bottom: 10px;
+    font-size: 14px;
+    margin: 4px 0;
+    color: #555;
 }
 
 .card button {
-    background-color: #5a67d8;
+    margin-top: 6px;
+    padding: 6px 12px;
+    background-color: #a0522d;
     color: white;
     border: none;
-    padding: 8px 14px;
     border-radius: 6px;
-    font-size: 14px;
     cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s;
 }
 
 .card button:hover {
-    background-color: #4eaaec;
+    transform: scale(1.05);
+    background-color: #8b4513;
+}
+
+.toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 6px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    font-size: 14px;
+    visibility: hidden;
+    z-index: 1000;
+}
+
+.toast.show {
+    opacity: 1;
+    visibility: visible;
 }
