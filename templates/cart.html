@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Cart</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+  const { useState } = React;
+
+  const priceMap = {
+    Small: 0,
+    Medium: 1,
+    Large: 2
+  };
+
+  function CartItem({ item, index, updateSize }) {
+    const basePrice = parseFloat(item.basePrice.replace('$', ''));
+    const sizeExtra = priceMap[item.size];
+    const totalPrice = basePrice + sizeExtra;
+
+    return (
+      <div className="receipt-item">
+        <img src={item.img} alt={item.name} />
+        <div className="receipt-info">
+          <h3>{item.name}</h3>
+          <select value={item.size} onChange={(e) => updateSize(index, e.target.value)}>
+            <option value="Small">Small</option>
+            <option value="Medium">Medium (+$1)</option>
+            <option value="Large">Large (+$2)</option>
+          </select>
+          <p className="price">Price: ${totalPrice.toFixed(2)}</p>
+        </div>
+      </div>
+    );
+  }
+
+  function App() {
+    const [cart, setCart] = useState(() => {
+      const saved = localStorage.getItem('cart');
+      const items = saved ? JSON.parse(saved) : [];
+      const fullItems = items.map(name => {
+        const menu = {
+          "Espresso": { price: "$3", img: "/static/images/espresso.png" },
+          "Latte": { price: "$4", img: "/static/images/latte.png" },
+          "Cappuccino": { price: "$4.5", img: "/static/images/cappucchino.png" },
+          "Macha": { price: "$5", img: "/static/images/matcha.png" },
+          "Hot Chocolate": { price: "$5", img: "/static/images/hotchocolate.png" },
+          "Chai": { price: "$3", img: "/static/images/chai.png" },
+          "Affogato": { price: "$3", img: "/static/images/affogato.png" },
+          "Cold Brew": { price: "$3", img: "/static/images/coldbrew.png" },
+          "Iced Coffee": { price: "$5", img: "/static/images/icedcoffee.png" },
+          "Iced Americano": { price: "$5", img: "/static/images/icedamericano.png" },
+          "Iced Mocha Latte": { price: "$5", img: "/static/images/icedmochalatte.png" },
+          "Iced Matcha Latte": { price: "$5", img: "/static/images/icedmatchalatte.png" }
+        };
+        return {
+          name,
+          size: "Small",
+          basePrice: menu[name]?.price || "$0",
+          img: menu[name]?.img || ""
+        };
+      });
+      return fullItems;
+    });
+
+    const updateSize = (index, newSize) => {
+      const updated = [...cart];
+      updated[index].size = newSize;
+      setCart(updated);
+    };
+
+    const handlePayment = () => {
+      alert("Proceeding to payment (not implemented)");
+    };
+
+    const totalAmount = cart.reduce((sum, item) => {
+      const base = parseFloat(item.basePrice.replace('$', '')) || 0;
+      return sum + base + priceMap[item.size];
+    }, 0);
+
+    return (
+      <>
+        <h1>Your Receipt</h1>
+        <div className="receipt">
+          {cart.length === 0 ? (
+            <p>Your cart is empty.</p>
+          ) : (
+            <>
+              {cart.map((item, idx) => (
+                <CartItem key={idx} item={item} index={idx} updateSize={updateSize} />
+              ))}
+              <div className="total">Total: ${totalAmount.toFixed(2)}</div>
+              <button className="pay-btn" onClick={handlePayment}>Proceed to Payment</button>
+            </>
+          )}
+        </div>
+      </>
+    );
+  }
+
+  const root = ReactDOM.createRoot(document.getElementById('root'));
+  root.render(<App />);
+</script>
+
+</body>
+</html>
